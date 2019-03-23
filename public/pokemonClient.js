@@ -13,6 +13,21 @@ function searchById() {
 	});
 }
 
+function searchByName() {
+	console.log("searching for pokemon with name");
+
+	var name = $("#name").val();
+	console.log(name);
+	$.get("/onePokemon", {name: name}, function (data) {
+		console.log("Back from the server with: ");
+		console.log(data);
+
+		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>");
+	});
+
+
+}
+
 function getAllPokemon() {
 	console.log("searching for pokemon with id ");
 

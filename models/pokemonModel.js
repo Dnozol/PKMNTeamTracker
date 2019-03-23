@@ -27,6 +27,7 @@ function getAllPokemon(callback) {
 	});
 }
 
+// Find one pokemon by its number
 function getPokemonById(id, callback) {
 	// get pokemon with id
 	console.log("Searching the DB for pokemon: " + id);
@@ -42,7 +43,23 @@ function getPokemonById(id, callback) {
 			callback(null, results);	
 		}
 	});
-	
+}
+
+// Find one pokemon by its name
+function getPokemonByName(name, callback) {
+	console.log("Searching the DB for pokemon: " + name);
+	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon WHERE pokemon_name=$1::text";
+	var params = [name];
+	pool.query(sql, params, function(err, dbResults) {
+		if(err) {
+			throw err;
+		} else {
+			console.log("Single Search with: ");
+			console.log(dbResults);
+			var results = {pokemon: dbResults.rows};
+			callback(null, results);
+		}
+	});
 }
 
 function insertNewTeam(name, callback) {

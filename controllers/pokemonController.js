@@ -14,9 +14,18 @@ function getOnePokemon(request, response) {
 	var id = request.query.id;
 	console.log("getting one pokemon with id: " + id);
 	
-	pokemonModel.getPokemonById(id, function(err, results) {
-		response.json(results);
-	});
+	// Check if they are looking by name or number
+	if (isNaN(id)) {
+		//if it is a name
+		pokemonModel.getPokemonByName(id, function(err, results) {
+			response.json(results);
+		});
+	} else {
+		//if it is a number
+		pokemonModel.getPokemonById(id, function(err, results) {
+			response.json(results);
+		});
+	}
 }
 
 
