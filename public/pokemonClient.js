@@ -9,7 +9,7 @@ function searchById() {
 		console.log("Back from the server with: ");
 		console.log(data);
 
-		$("#resultPokemon").append("<strong>" + data.name + "</strong>");
+		$("#resultPokemon").append("<strong>" + data.pokemon_name + "</strong>");
 	});
 }
 
@@ -25,8 +25,8 @@ function getAllPokemon() {
 
 		for (var i = 0; i < data.pokemon.length; i++) {
 			var pokemonlist = data.pokemon[i];
-		
-			$("#resultPokemon").append("<p>" + pokemonlist.name + "</p>");
+
+			$("#resultPokemon").append("<p>" + pokemonlist.pokemon_name + "</p>");
 		}
 	});
 }
