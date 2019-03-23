@@ -48,7 +48,7 @@ function getPokemonById(id, callback) {
 // Find one pokemon by its name
 function getPokemonByName(name, callback) {
 	console.log("Searching the DB for pokemon: " + name);
-	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon WHERE pokemon_name=$1::text";
+	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon WHERE UPPER(pokemon_name) LIKE UPPER($1::text)";
 	var params = [name];
 	pool.query(sql, params, function(err, dbResults) {
 		if(err) {
