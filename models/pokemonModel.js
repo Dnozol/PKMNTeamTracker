@@ -70,5 +70,6 @@ function insertNewTeam(name, callback) {
 module.exports = {
 	getAllPokemon: getAllPokemon,
 	getPokemonById: getPokemonById,
+	getPokemonByName: getPokemonByName,
 	insertNewTeam: insertNewTeam
 };
