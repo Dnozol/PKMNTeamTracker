@@ -1,14 +1,30 @@
+const { Pool } = require("pg");
+
+const db_url =  process.env.DATABASE_URL;
+
+const pool = new Pool({connectionString: db_url});
+
 function getAllPokemon(callback) {
 	//get all pokemon from db
-	var results = {
-		pokemon: [
-		{id : 1, name: "bulbasaur"},
-		{id : 2, name: "ivysaur"},
-		{id : 3, name: "venusaur"}
-		]
-	};
 
-	callback(null, results);
+	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon";
+
+	pool.query(sql, function (err, dbResults) {
+		if(err) {
+			throw err;
+		} else {
+			// we got some successful results from the db
+			console.log("Back from db with: ");
+			console.log(dbResults);
+
+			var results = {
+				success:true,
+				pokemon:dbResults.rows
+			};
+
+			callback(null, results);
+		}
+	});
 }
 
 function getPokemonById(id, callback) {
