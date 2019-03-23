@@ -1,0 +1,33 @@
+.flex-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.sidebar {
+  flex: 20%;
+  padding: 20px;
+  background-color: #777;
+  font-size: 16px;
+  border: 5px solid #c12230;
+  color: white;
+	margin: 10px;
+	font-family: arial;
+}
+.main {
+  flex: 70%;
+  padding: 20px;
+  background-color: green;
+  font-size: 20px;
+  margin: 10px;
+  font-family: Calibri;
+}
+#banner {
+	text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+table, td, th {
+  border: 1px solid black;
+  text-align: center;
+}

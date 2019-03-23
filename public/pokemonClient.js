@@ -9,7 +9,7 @@ function searchById() {
 		console.log("Back from the server with: ");
 		console.log(data);
 
-		$("#resultPokemon").append("<strong>" + data.pokemon_name + "</strong>");
+		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>");
 	});
 }
 
