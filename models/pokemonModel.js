@@ -68,13 +68,24 @@ function insertNewTeam(name, callback) {
 }
 
 function insertNewPokemon(name, type1, type2, callback) {
-	var results = {success:true};
-	callback(null, results);
+	console.log("Adding new pokemon");
+	var sql = "INSERT INTO pokemon (pokemon_name, type_1, type_2) VALUES ($1::text, $2::text, $3::text)";
+	var params = [name, type1, type2];
+	pool.query(sql, params, function(err, dbResults) {
+		if (err) {
+			throw err;
+		} else {
+			console.log("Added to database");
+			var results = {pokemon: dbResults.rows};
+			callback(null, results);
+		}
+	});
 }
 
 module.exports = {
 	getAllPokemon: getAllPokemon,
 	getPokemonById: getPokemonById,
 	getPokemonByName: getPokemonByName,
+	insertNewPokemon: insertNewPokemon,
 	insertNewTeam: insertNewTeam
 };

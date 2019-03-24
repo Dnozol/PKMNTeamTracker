@@ -42,6 +42,10 @@ function addNewPokemon(request, response) {
 	var name = request.body.name;
 	var type1 = request.body.type1;
 	var type2 = request.body.type2;
+	console.log("creating new pokemon (controller)");
+	pokemonModel.insertNewPokemon(name, type1, type2, function(err, results) {
+		response.json(results);
+	});
 }
 
 module.exports = {
