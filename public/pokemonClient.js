@@ -32,7 +32,7 @@ function searchByName() {
 
 function addPokemon() {
 	console.log("adding pokemon (client)");
-	var name = $("#name").val();
+	var name = $("#pokemon_name").val();
 	var type1 = $("#type1").val();
 	var type2 = $("#type2").val();
 	$.post("/newPokemon", {name:name, type1:type1, type2:type2}, function(data) {
