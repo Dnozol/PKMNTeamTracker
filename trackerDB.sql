@@ -12,7 +12,7 @@ CREATE TABLE trainer
 
 CREATE TABLE pokemon
 ( pokemon_id SERIAL PRIMARY KEY
-, pokemon_name VARCHAR(20)
+, pokemon_name VARCHAR(20) UNIQUE
 , type_1 VARCHAR(8) NOT NULL
 , type_2 VARCHAR(8)
 );

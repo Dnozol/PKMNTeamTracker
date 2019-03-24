@@ -1,7 +1,7 @@
 
 function searchById() {
 	console.log("searching for pokemon with id ");
-
+	document.getElementById("resultPokemon").innerHTML = "";
 	var id = $("#id").val();
 	console.log(id);
 
@@ -9,20 +9,22 @@ function searchById() {
 		console.log("Back from the server with: ");
 		console.log(data);
 
-		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>");
+		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>" +
+			"    Type 1: " + data.pokemon[0].type_1 + "    Type 2: " + data.pokemon[0].type_2);
 	});
 }
 
 function searchByName() {
 	console.log("searching for pokemon with name");
-
+	document.getElementById("resultPokemon").innerHTML = "";
 	var name = $("#name").val();
 	console.log(name);
 	$.get("/onePokemon", {name: name}, function (data) {
 		console.log("Back from the server with: ");
 		console.log(data);
 
-		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>");
+		$("#resultPokemon").append("<strong>" + data.pokemon[0].pokemon_name + "</strong>" +
+			"\tType 1: " + data.pokemon[0].type_1 + "\tType 2: " + data.pokemon[0].type_2);
 	});
 
 
@@ -44,4 +46,16 @@ function getAllPokemon() {
 			$("#resultPokemon").append("<p>" + pokemonlist.pokemon_name + "</p>");
 		}
 	});
+}
+
+function populateTypes() {
+	var types = ["Dark", "Psychic", "Fighting", "Ice", "Ground", "Electric", "Normal", "Water", "Rock", "Fairy", "Fire",
+				 "Poison", "Bug", "Ghost", "Dragon", "Grass", "Flying", "Steel"];
+	var list = "";
+	for (var i = 0; i < types.length; i++) {
+		list = list + "<option value" + types[i] + ">" + types[i] + "</option>";
+	}
+	document.getElementById("type1").innerHTML = list;
+	list = "<option value" + null + ">None" + "</option>" + list; 
+	document.getElementById("type2").innerHTML = list;
 }

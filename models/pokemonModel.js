@@ -31,7 +31,7 @@ function getAllPokemon(callback) {
 function getPokemonById(id, callback) {
 	// get pokemon with id
 	console.log("Searching the DB for pokemon: " + id);
-	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon WHERE pokemon_id=$1::integer";
+	var sql = "SELECT pokemon_id, pokemon_name, type_1, type_2 FROM pokemon WHERE pokemon_id=$1::integer";
 	var params = [id];
 	pool.query(sql, params, function(err, dbResults) {
 		if(err) {
@@ -47,8 +47,8 @@ function getPokemonById(id, callback) {
 
 // Find one pokemon by its name
 function getPokemonByName(name, callback) {
-	console.log("Searching the DB for pokemon: " + name);
-	var sql = "SELECT pokemon_id, pokemon_name FROM pokemon WHERE UPPER(pokemon_name) LIKE UPPER($1::text)";
+	console.log("Searching the DB for pokemon name: " + name);
+	var sql = "SELECT pokemon_id, pokemon_name, type_1, type_2 FROM pokemon WHERE UPPER(pokemon_name) LIKE UPPER($1::text)";
 	var params = [name];
 	pool.query(sql, params, function(err, dbResults) {
 		if(err) {
@@ -63,6 +63,11 @@ function getPokemonByName(name, callback) {
 }
 
 function insertNewTeam(name, callback) {
+	var results = {success:true};
+	callback(null, results);
+}
+
+function insertNewPokemon(name, type1, type2, callback) {
 	var results = {success:true};
 	callback(null, results);
 }

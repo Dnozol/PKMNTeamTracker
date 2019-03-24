@@ -36,12 +36,17 @@ function createNewTeam(request, response) {
 	pokemonModel.insertNewTeam(name, function(err, results) {
 		response.json(results);
 	});
+}
 
-
+function addNewPokemon(request, response) {
+	var name = request.body.name;
+	var type1 = request.body.type1;
+	var type2 = request.body.type2;
 }
 
 module.exports = {
 	getAllPokemon: getAllPokemon,
 	getOnePokemon: getOnePokemon,
-	createNewTeam: createNewTeam
+	createNewTeam: createNewTeam,
+	addNewPokemon: addNewPokemon
 };

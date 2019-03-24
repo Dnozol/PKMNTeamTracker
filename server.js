@@ -12,6 +12,7 @@ app.use(express.urlencoded({extended: true}));
 app.get("/allPokemon", pokemonController.getAllPokemon);
 app.get("/onePokemon", pokemonController.getOnePokemon);
 
+app.post("/newPokemon", pokemonController.addNewPokemon);
 app.post("/team", pokemonController.createNewTeam);
 
 app.listen(PORT, function() {
