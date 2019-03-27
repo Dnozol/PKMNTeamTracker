@@ -52,8 +52,10 @@ function addNewPokemon(request, response) {
 function handleLogin(request, response) {
 	var trainer_name = request.body.trainer_name;
 	var password = request.body.password;
+	console.log("$$$$$$$   handleLogin $$$$$$$");
 
 	pokemonModel.checkLoginUser(trainer_name, password, function(err, results) {
+		console.log("$$$$$$$   handleLogin/checkLoginUser $$$$$$$");
 		response.json(results);
 	});
 }
