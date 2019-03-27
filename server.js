@@ -21,12 +21,30 @@ app.get("/onePokemon", pokemonController.getOnePokemon);
 
 app.post("/newPokemon", pokemonController.addNewPokemon);
 app.post("/team", pokemonController.createNewTeam);
-app.post("/login", pokemonController.handleLogin);
-app.post("/logout", pokemonController.handleLogout);
+app.post("/login", handleLogin);
+app.post("/logout", handleLogout);
 
 /**********Should be in a controller ***************/
 
+function handleLogin(request, response) {
+	var trainer_name = request.body.trainer_name;
+	var password = request.body.password;
+	console.log("$$$$$$$   handleLogin $$$$$$$");
 
+	pokemonModel.checkLoginUser(trainer_name, password, function(err, results) {
+		console.log("$$$$$$$   handleLogin/checkLoginUser $$$$$$$");
+		response.json(results);
+	});
+}
+
+function handleLogout(request, response) {
+	var result = {success: false};
+	if(request.session.trainer) {
+		request.session.destroy();
+		result = {success: true};
+	}
+	response.json(result);
+}
 ///////    Middleware verifies the user is logged in ///////
 function verifyLogin(request, response, next) {
 	if(request.session.trainer) {

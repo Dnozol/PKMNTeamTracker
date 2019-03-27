@@ -108,6 +108,7 @@ module.exports = {
 	getPokemonById: getPokemonById,
 	getPokemonByName: getPokemonByName,
 	insertNewPokemon: insertNewPokemon,
-	insertNewTeam: insertNewTeam,
-	checkLoginUser: checkLoginUser
+	checkLoginUser: checkLoginUser,
+	insertNewTeam: insertNewTeam
+	
 };
