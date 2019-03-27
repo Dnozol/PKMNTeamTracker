@@ -10,7 +10,6 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 var session = require("express-session");
-var Filestore = require("session-file-store")(session);
 app.use(session({
 	name: "trainer_name",
 	secret: "secret",
