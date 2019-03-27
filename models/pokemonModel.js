@@ -99,6 +99,7 @@ function checkLoginUser(trainer_name, password, callback) {
 				//if(password == dbResults.)
 			}
 		}
+		response.json({success: false});
 	});
 }
 
