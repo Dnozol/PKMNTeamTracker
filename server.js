@@ -13,7 +13,7 @@ var session = require("express-session");
 app.use(session({
 	name: "trainer_name",
 	secret: "secret",
-	saveUnintia
+	saveUnintialized: true
 }));
 app.get("/allPokemon", pokemonController.getAllPokemon);
 app.get("/onePokemon", pokemonController.getOnePokemon);
