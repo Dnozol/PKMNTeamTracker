@@ -82,10 +82,31 @@ function insertNewPokemon(name, type1, type2, callback) {
 	});
 }
 
+function checkLoginUser(trainer_name, password, callback) {
+	console.log("checking DB for trainer: " + trainer_name);
+	var sql = "SELECT trainer_name FROM trainer WHERE trainer_name = " + trainer_name;
+	pool.query(sql, function(err, dbResults) {
+		if (err) {
+			throw err;
+		} else {
+			console.log("found in DB");
+			// if there was something found
+			if (dbResults.rows.length > 0) {
+				// we found the user name
+				// check the password
+				console.log("dbResults: " + dbResults);
+				console.log("dbResults.rows" + dbResults.rows);
+				//if(password == dbResults.)
+			}
+		}
+	});
+}
+
 module.exports = {
 	getAllPokemon: getAllPokemon,
 	getPokemonById: getPokemonById,
 	getPokemonByName: getPokemonByName,
 	insertNewPokemon: insertNewPokemon,
-	insertNewTeam: insertNewTeam
+	insertNewTeam: insertNewTeam,
+	checkLoginUser: checkLoginUser
 };
