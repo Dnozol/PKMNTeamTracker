@@ -71,8 +71,8 @@ function populateTypes() {
 	document.getElementById("type2").innerHTML = list;
 }
 
-function login () {
-	var username = $("#username").val();
+function login() {
+	var username = $("#trainer_name").val();
 	var password = $("#password").val();
 
 	var params = { 
