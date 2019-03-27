@@ -72,11 +72,11 @@ function populateTypes() {
 }
 
 function login() {
-	var username = $("#trainer_name").val();
+	var trainer_name = $("#trainer_name").val();
 	var password = $("#password").val();
 
 	var params = { 
-		username: username,
+		trainer_name: trainer_name,
 	    password: password
 	};
 
@@ -90,7 +90,7 @@ function login() {
 }
 
 function logout() {
-	app.post("/logout", params, function(result) {
+	$.post("/logout", params, function(result) {
 		if(result && result.success) {
 			$("#status").text("Successfully logged out.");
 		} else {
