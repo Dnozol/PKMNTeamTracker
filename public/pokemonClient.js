@@ -72,6 +72,7 @@ function populateTypes() {
 }
 
 function login() {
+	console.log("in login()");
 	var trainer_name = $("#trainer_name").val();
 	var password = $("#password").val();
 

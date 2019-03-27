@@ -27,6 +27,7 @@ app.post("/logout", handleLogout);
 /**********Should be in a controller ***************/
 
 function handleLogin(request, response) {
+	console.log("in handleLogin()");
 	var trainer_name = request.body.trainer_name;
 	var password = request.body.password;
 	console.log("$$$$$$$   handleLogin $$$$$$$");
