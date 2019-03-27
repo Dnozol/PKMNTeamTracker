@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="pokemonClient.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="./css/styles.css">
+</head>
+<body>
+	<h1> Team Tracker </h1>
+	<div class="flex-container">
+		<div class="sidebar">
+			<input type="text" id="trainer_name" name="trainer_name" placeholder="User Name"><br>
+			<input type="password" id="password" name="password" placeholder="Password"><br>
+			<button onclick="login()">Sign In</button>
+			<button>Create New Account</button>
+
+			<button onclick="logout()">Sign out</button>
+
+			<p id="status"></p>
+		</div> <!-- end of side bar -->
+		<div class="main">
+
+		</div> <!-- end of main -->
+	</div> <!-- end of flex container -->
+</body>
+</html>

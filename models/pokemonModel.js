@@ -82,6 +82,34 @@ function insertNewPokemon(name, type1, type2, callback) {
 	});
 }
 
+function login () {
+	var username = $("#username").val();
+	var password = $("#password").val();
+
+	var params = { 
+		username: username,
+	    password: password
+	};
+
+	$.post("/login", params, function(result) {
+		if(result && result.success) {
+			$("#status").text("Successfully logged in.");
+		} else {
+			$("#status").text("Error logging in");
+		}
+	});
+}
+
+function logout() {
+	app.post("/logout", params, function(result) {
+		if(result && result.success) {
+			$("#status").text("Successfully logged out.");
+		} else {
+			$("#status").text("Error logging out");
+		}
+	});
+}
+
 module.exports = {
 	getAllPokemon: getAllPokemon,
 	getPokemonById: getPokemonById,
