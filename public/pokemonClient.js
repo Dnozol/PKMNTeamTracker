@@ -90,7 +90,7 @@ function login() {
 }
 
 function logout() {
-	$.post("/logout", params, function(result) {
+	$.post("/logout", function(result) {
 		if(result && result.success) {
 			$("#status").text("Successfully logged out.");
 		} else {
