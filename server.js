@@ -32,10 +32,16 @@ function handleLogin(request, response) {
 	var password = request.body.password;
 	console.log("$$$$$$$   handleLogin $$$$$$$");
 
-	pokemonModel.checkLoginUser(trainer_name, password, function(err, results) {
-		console.log("$$$$$$$   handleLogin/checkLoginUser $$$$$$$");
-		response.json(results);
-	});
+	var query = "SELECT trainer_name FROM trainer WHERE trainer_name = " + trainer_name;
+	pool.query(qry, function(error, dbResults) {
+		if(err){
+			throw err;
+		} else {
+			console.log("dbResults: " + dbResults);
+			console.log("dbResults.rows" + dbResults.rows);
+		}
+		response.json({success:false});
+	});	
 }
 
 function handleLogout(request, response) {
