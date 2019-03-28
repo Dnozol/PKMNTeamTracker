@@ -35,15 +35,14 @@ function handleLogin(request, response) {
 	console.log("in handleLogin()");
 	var trainer_name = request.body.trainer_name;
 	var password = request.body.password;
-	console.log("$$$$$$$   handleLogin $$$$$$$");
 
-	var query = "SELECT trainer_name FROM trainer WHERE trainer_name = " + trainer_name;
-	pool.query(qry, function(error, dbResults) {
-		if(err){
-			throw err;
+	var sql = "SELECT password FROM trainer WHERE trainer_name = $1";
+	var params = [trainer_name];
+	pool.query(sql, params, function(error, dbResults) {
+		if(error){
+			throw error;
 		} else {
-			console.log("dbResults: " + dbResults);
-			console.log("dbResults.rows" + dbResults.rows);
+			console.log("dbResults.rows[0].trainer_name" + dbResults.rows[0].password);
 		}
 		response.json({success:false});
 	});	
