@@ -2,6 +2,11 @@ const express = require("express");
 require('dotenv').config();
 const pokemonController = require("./controllers/pokemonController.js");
 const PORT = process.env.PORT || 5000;
+const { Pool } = require("pg");
+const pool = new Pool({
+	connectionString: process.env.DATABASE_URL,
+	ssl: true
+});
 
 var app = express();
 
