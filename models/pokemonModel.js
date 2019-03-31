@@ -54,8 +54,6 @@ function getPokemonByName(name, callback) {
 		if(err) {
 			throw err;
 		} else {
-			console.log("Single Search with: ");
-			console.log(dbResults);
 			var results = {pokemon: dbResults.rows};
 			callback(null, results);
 		}
@@ -82,24 +80,158 @@ function insertNewPokemon(name, type1, type2, callback) {
 	});
 }
 
-function checkLoginUser(trainer_name, password, callback) {
-	console.log("checking DB for trainer: " + trainer_name);
-	var sql = "SELECT trainer_name FROM trainer WHERE trainer_name = " + trainer_name;
-	pool.query(sql, function(err, dbResults) {
-		if (err) {
-			throw err;
+function checkSignIn(trainer_name, password, callback) {
+	console.log("in checkSignIn");
+
+	console.log("trainer_name = " + trainer_name);
+	var results = {success:false};
+	var sql = "SELECT password FROM trainer WHERE trainer_name = $1";
+	var params = [trainer_name];
+	pool.query(sql, params, function(error, dbResults) {
+		if(error){
+			throw error;
 		} else {
-			console.log("found in DB");
-			// if there was something found
-			if (dbResults.rows.length > 0) {
-				// we found the user name
-				// check the password
-				console.log("dbResults: " + dbResults);
-				console.log("dbResults.rows" + dbResults.rows);
-				//if(password == dbResults.)
+			if(dbResults.rows.length > 0) {
+				// if we found the username check the password
+				if(dbResults.rows[0].password == password) {
+					results = {success:true};
+					//request.session.trainer = trainer_name;
+				} 
 			}
+			callback(null, results); 
 		}
-		response.json({success: false});
+	});	
+}
+
+function createTrainer(trainer_name, password, callback) {
+	const sql = "INSERT INTO trainer (trainer_name, password) VALUES($1, $2)";
+	const params = [trainer_name, password];
+
+	pool.query(sql, params, function(error, results) {
+		if(error) {
+			console.log("error connecting to db");
+			throw error;
+			callback(error, null);
+		} else {
+			console.log("added to db");
+			results = {success:true};
+			callback(null, results);
+		}
+	});
+}
+
+function addTeamToDb(trainer_name, team_name, callback) {
+	// check if the team_name already exists in the DB
+	const sql_exists = "SELECT team_name FROM team WHERE team_name = $1 AND team.trainer_id = ( SELECT trainer_id FROM trainer WHERE trainer_name = $2)";
+	const params_exists = [team_name, trainer_name];
+	// if it doesn't add it to the db
+	const sql_addTeam = "INSERT INTO team (team_name, trainer_id) VALUES ($1, ( SELECT trainer_id FROM trainer WHERE trainer_name = $2))";
+	const params_addTeam = [team_name,trainer_name];
+
+	var results;
+	pool.query(sql_exists, params_exists, function(error, dbResults) {
+		if(error) {
+			console.log("error connecting to db");
+			throw error;
+			callback(error, null);
+		} else {
+
+			if (dbResults.rows.length > 0) {
+				console.log("found");
+				results = {success: true,
+						   found: true,
+						   team: dbResults.rows};
+			} else {
+				console.log("not found");
+				results = {success: true,
+						   found: false,
+						   team: dbResults.rows};
+			}
+		}	
+			// Check if the team name was found, if found proceed to addpokemontoteam without adding team to DB, not found add to DB
+		if (results && results.found) {
+			// the team name was found, proceed to addpokemon
+			results = {success: true,
+					   team_name: team_name};
+			callback(null, results);
+		} else if (results && (results.found == false)) {
+			// its a new team add it to the DB
+			pool.query(sql_addTeam, params_addTeam, function(error, dbTeamResults) {
+				if(error) {
+					console.log("error connecting to db for add team");
+					throw error;
+					callback(error, null);
+				} else {
+					console.log("added to DB");
+					results = { success: true,
+								team_name: team_name};
+				}
+			});
+			callback(null, results);
+		}
+	});	
+}
+
+function addToTeam(team_name, pokemon, callback) {
+	//check if team_name already has 6 pokemon on it
+	const sql_check_num = "SELECT team_name, pokemon_name " + 
+						" FROM team_pokemon tp JOIN team t ON t.team_id = tp.team_id " + 
+						" JOIN pokemon p on p.pokemon_id = tp.pokemon_id " +
+						" WHERE t.team_id = (SELECT team_id FROM team WHERE team_name = $1) ";
+
+	const params_check_num = [team_name];
+
+	// add pokemon to the team
+	const sql_add_pokemon = "INSERT INTO team_pokemon(team_id, pokemon_id) " +
+							" VALUES ( (SELECT team_id FROM team WHERE team_name = $1), " +
+							" (SELECT pokemon_id FROM pokemon WHERE pokemon_name = $2)); ";
+	const params_add_pokemon = [team_name, pokemon];
+
+	var results = {success: false};
+	pool.query(sql_check_num, params_check_num, function(error, dbResults) {
+		if(error) {
+			console.log("error connecting to DB");
+			throw error;
+			callback(error, null);
+		} else {
+			if(dbResults.rows.length >= 6) {
+				// the team is already full
+				results = {success: false,
+						   message: "This team already has 6 pokemon on it"};
+			} else {
+				pool.query(sql_add_pokemon, params_add_pokemon, function(error, dbAddResults) {
+				 	console.log("added pokemon model");
+				});
+				results = {success: true,
+						   pokemon: pokemon,
+						   team: team_name};
+			}
+			callback(null, results);
+		}
+	});
+	// if not, add pokemon to team
+}
+
+function getAllTeams(trainer, callback) {
+	const sql = "SELECT team_name, pokemon_name " + 
+				" FROM team_pokemon tp JOIN team t ON t.team_id = tp.team_id " + 
+				" JOIN pokemon p on p.pokemon_id = tp.pokemon_id " +
+				" WHERE t.trainer_id = (SELECT trainer_id FROM trainer WHERE trainer_name = $1) " +
+				" ORDER BY t.team_name";
+	const params = [trainer];
+	console.log("in get teams model");
+	pool.query(sql, params, function(error, dbResults) {
+		if(error) {
+			console.log("could not connect to DB model");
+			throw error;
+			callback(error, null);
+		} else {
+			//return all of the teams
+			results = {success: true,
+					   teams: dbResults.rows};
+			console.log(results);
+			callback(null, results);
+		}
 	});
 }
 
@@ -108,7 +240,10 @@ module.exports = {
 	getPokemonById: getPokemonById,
 	getPokemonByName: getPokemonByName,
 	insertNewPokemon: insertNewPokemon,
-	checkLoginUser: checkLoginUser,
+	checkSignIn: checkSignIn,
+	addTeamToDb: addTeamToDb,
+	addToTeam: addToTeam,
+	createTrainer: createTrainer,
+	getAllTeams: getAllTeams,
 	insertNewTeam: insertNewTeam
-	
 };

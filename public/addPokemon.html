@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title></title>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<script src="pokemonClient.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
@@ -10,13 +12,21 @@
 	<h1> Team Tracker </h1>
 	<div class="flex-container">
 		<div class="sidebar">
-			<a href="pokemon.html">Return to Search</a>
+			<a href="pokemon.html">Return to Home Page</a>
 		</div> <!-- end of side bar -->
 		<div class="main">
+			<p>Add a new pokemon</p>
 			<input type="text" id="pokemon_name" name="pokemon_name" placeholder="Pokemon Name" required>
 			<select name="type1" id="type1"></select>
 			<select name="type2" id="type2"></select>
 			<button onclick="addPokemon()">Add Pokemon</button>
+
+			<br><br><br>
+			<p>Add new team or to existing team</p>
+			<form action="/addTeam" method="post">
+				<input type="text" id="team_name" name="team_name"><br>
+				<button type="submit">Add to Team</button>
+			</form>
 		</div> <!-- end of main -->
 	</div> <!-- end of flex container -->
 </body>

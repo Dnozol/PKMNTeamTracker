@@ -10,6 +10,7 @@
   "author": "dean carver",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.5",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",

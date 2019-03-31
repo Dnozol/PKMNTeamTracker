@@ -2,12 +2,18 @@
 <html>
 <head>
 	<title></title>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<script src="pokemonClient.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
-<body>
-	<h1> Team Tracker </h1>
+<body onload="displayUserInfo(); displayAllTeams()">
+	<h1> Team Tracker </h1>				
+	<form action="/logout" method="post">
+		<button onclick="logout()">Sign out</button>
+	</form>
+	<p id="userInfo"> </p>
 	<div class="flex-container">
 		<div class="sidebar">
 			<a href="addPokemon.html">Add Pokemon to Database</a>

@@ -23,39 +23,28 @@ app.use(session({
 }));
 app.get("/allPokemon", pokemonController.getAllPokemon);
 app.get("/onePokemon", pokemonController.getOnePokemon);
+app.get("/userInfo", pokemonController.getUserInfo);
+app.get("/teamInfo", pokemonController.getTeamInfo);
+app.get("/getAllTeams", pokemonController.getAllTeams);
 
 app.post("/newPokemon", pokemonController.addNewPokemon);
 app.post("/team", pokemonController.createNewTeam);
-app.post("/login", handleLogin);
-app.post("/logout", handleLogout);
+app.post("/login", pokemonController.handleLogin);
+app.post("/logout", pokemonController.handleLogout);
+app.post("/register", pokemonController.handleRegister);
+app.post("/addTeam", pokemonController.addTeam);
+app.post("/addPokemonToTeam", pokemonController.addPokemonToTeam);
 
 /**********Should be in a controller ***************/
 
-function handleLogin(request, response) {
-	console.log("in handleLogin()");
-	var trainer_name = request.body.trainer_name;
-	var password = request.body.password;
 
-	var sql = "SELECT password FROM trainer WHERE trainer_name = $1";
-	var params = [trainer_name];
-	pool.query(sql, params, function(error, dbResults) {
-		if(error){
-			throw error;
-		} else {
-			console.log("dbResults.rows[0].trainer_name" + dbResults.rows[0].password);
-		}
-		response.json({success:false});
-	});	
-}
 
-function handleLogout(request, response) {
-	var result = {success: false};
-	if(request.session.trainer) {
-		request.session.destroy();
-		result = {success: true};
-	}
-	response.json(result);
-}
+
+
+
+//// should be in model as with the {POOL} above
+
+
 ///////    Middleware verifies the user is logged in ///////
 function verifyLogin(request, response, next) {
 	if(request.session.trainer) {
