@@ -1,8 +1,7 @@
 const { Pool } = require("pg");
-
 const db_url =  process.env.DATABASE_URL;
-
 const pool = new Pool({connectionString: db_url});
+const bcrypt = require('bcrypt');
 
 function getAllPokemon(callback) {
 	//get all pokemon from db
@@ -93,9 +92,12 @@ function checkSignIn(trainer_name, password, callback) {
 		} else {
 			if(dbResults.rows.length > 0) {
 				// if we found the username check the password
-				if(dbResults.rows[0].password == password) {
+				console.log("found the user");
+				if(bcrypt.compareSync(password, dbResults.rows[0].password)) {
+					console.log("found the password");
 					results = {success:true};
-					//request.session.trainer = trainer_name;
+				} else {
+					results = {success:false};
 				} 
 			}
 			callback(null, results); 
@@ -104,8 +106,9 @@ function checkSignIn(trainer_name, password, callback) {
 }
 
 function createTrainer(trainer_name, password, callback) {
+	var hash_password = bcrypt.hashSync(password, 10);
 	const sql = "INSERT INTO trainer (trainer_name, password) VALUES($1, $2)";
-	const params = [trainer_name, password];
+	const params = [trainer_name, hash_password];
 
 	pool.query(sql, params, function(error, results) {
 		if(error) {
